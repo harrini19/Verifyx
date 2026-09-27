@@ -1,0 +1,26 @@
+﻿<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Billing Dashboard')}"></head>
+<body>
+    <div th:replace="~{fragments/layout :: sidebar}"></div>
+    <div class="main-content">
+        <div th:replace="~{fragments/layout :: topbar}"></div>
+        <div class="content-area">
+            <h2>Billing Dashboard</h2>
+            <div class="card-container">
+                <div class="card">
+                    <h3>Go to Invoices</h3>
+                    <a th:href="@{/billing/invoices}" class="btn btn-info">Invoices</a>
+                </div>
+                <div class="card">
+                    <h3>Go to Payments</h3>
+                    <a th:href="@{/billing/payments}" class="btn btn-info">Payments</a>
+                </div>
+    </div>
+</body>
+</html>
+
+
+
+
+

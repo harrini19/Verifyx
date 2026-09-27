@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Dashboard')}"></head>
+<body>
+    <div th:replace="~{fragments/layout :: sidebar}"></div>
+    <div class="main-content">
+        <div th:replace="~{fragments/layout :: topbar}"></div>
+        <div class="content-area">
+    
+
+
+        
+
+            <div class="page-header">
+                <h2>Overview</h2>
+            </div>
+            
+            <div class="card-container">
+                <div class="card card-blue panel">
+                    <h3>Total Credentials</h3>
+                    <div class="value" th:text="${stats.totalCertificates}">0</div>
+                </div>
+                <div class="card card-green panel">
+                    <h3>Verified Credentials</h3>
+                    <div class="value" th:text="${stats.verifiedCertificates}">0</div>
+                </div>
+                <div class="card card-amber panel">
+                    <h3>Pending Invoices</h3>
+                    <div class="value" th:text="${stats.pendingInvoices}">0</div>
+                </div>
+            </div>
+            
+            <div class="card-container">
+                <div class="card">
+                    <h3>Revenue</h3>
+                    <div class="value" th:text="${'₹' + #numbers.formatDecimal(stats.totalRevenue, 1, 'COMMA', 2, 'POINT')}">₹0.00</div>
+                </div>
+                <div class="card card-red panel">
+                    <h3>Expenses</h3>
+                    <div class="value" th:text="${'₹' + #numbers.formatDecimal(stats.totalExpenses, 1, 'COMMA', 2, 'POINT')}">₹0.00</div>
+                </div>
+                <div class="card panel" th:classappend="${stats.profitable ? 'card-green' : 'card-red'}">
+                    <h3>Net Position</h3>
+                    <div class="value" th:text="${'₹' + #numbers.formatDecimal(stats.netProfitLoss, 1, 'COMMA', 2, 'POINT')}">₹0.00</div>
+                </div>
+            </div>
+
+            <div class="card-container" style="grid-template-columns: 1fr 1fr 1fr;">
+                <div class="panel table-container" style="margin-bottom: 0;">
+                    <div class="table-header">
+                        <h3>Recent Credentials</h3>
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Recipient</th>
+                                <th>Course</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="cert : ${stats.recentCertificates}">
+                                <td th:text="${cert.studentName}">Name</td>
+                                <td th:text="${cert.course}">Course</td>
+                            </tr>
+                            <tr th:if="${#lists.isEmpty(stats.recentCertificates)}">
+                                <td colspan="2" style="text-align: center; color: var(--text-muted);">No recent credentials</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="panel table-container" style="margin-bottom: 0;">
+                    <div class="table-header">
+                        <h3>Recent Invoices</h3>
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Client</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="inv : ${stats.recentInvoices}">
+                                <td th:text="${inv.agencyName}">Client</td>
+                                <td>
+                                    <span class="badge" th:classappend="${inv.status.name() == 'PAID' ? 'badge-success' : 'badge-warning'}" th:text="${inv.status}">STATUS</span>
+                                </td>
+                            </tr>
+                            <tr th:if="${#lists.isEmpty(stats.recentInvoices)}">
+                                <td colspan="2" style="text-align: center; color: var(--text-muted);">No recent invoices</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="panel table-container" style="margin-bottom: 0;">
+                    <div class="table-header">
+                        <h3>Recent Payments</h3>
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Amount</th>
+                                <th>Method</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="pay : ${stats.recentPayments}">
+                                <td th:text="${'₹' + #numbers.formatDecimal(pay.amount, 1, 'COMMA', 2, 'POINT')}">₹0.00</td>
+                                <td th:text="${pay.paymentMethod}">Method</td>
+                            </tr>
+                            <tr th:if="${#lists.isEmpty(stats.recentPayments)}">
+                                <td colspan="2" style="text-align: center; color: var(--text-muted);">No recent payments</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
+
+

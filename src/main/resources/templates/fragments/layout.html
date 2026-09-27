@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="head(title)">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${title} + ' | Credential Platform'">Platform</title>
+    <link href="https://db.onlinewebfonts.com/c/8cb707a9b8a73f8a7403336b861c3074?family=BubbledotICG-FinePos" rel="stylesheet"/>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/design.css}">
+</head>
+<body>
+    <div class="sidebar" th:fragment="sidebar">
+        <div class="sidebar-header">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:#3A86FF;flex-shrink:0;"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+            VERIFYX
+        </div>
+        <ul class="sidebar-menu">
+            <li><strong>Overview</strong></li>
+            <li><a th:href="@{/dashboard}">Dashboard</a></li>
+
+            <li><strong>Credentials</strong></li>
+            <li><a th:href="@{/certificates/issue}">Issue Certificate</a></li>
+            <li><a th:href="@{/certificates}">All Certificates</a></li>
+            <li><a th:href="@{/certificates/verify}">Verify Certificate</a></li>
+
+            <li><strong>Finance</strong></li>
+            <li><a th:href="@{/accounts}">Chart of Accounts</a></li>
+            <li><a th:href="@{/billing/invoices}">Invoices</a></li>
+            <li><a th:href="@{/billing/payments}">Payments</a></li>
+
+            <li><strong>Reports</strong></li>
+            <li><a th:href="@{/reports/pnl}">Platform P&amp;L</a></li>
+            <li><a th:href="@{/reports/budget}">Unit Budget</a></li>
+        </ul>
+    </div>
+
+    <div th:fragment="topbar">
+        <div class="topbar">
+            <div class="topbar-user">
+                <span>System Administrator</span>
+                <div class="avatar">A</div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

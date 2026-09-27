@@ -1,0 +1,380 @@
+/* ================================================================
+   VERIFYX  —  landing.css
+   Standalone cinematic landing page.
+   Does not affect other templates.
+   ================================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+/* ── Reset ────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;          /* single-viewport — intentional */
+    background: #000;
+    color: #fff;
+    font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+a { color: inherit; text-decoration: none; }
+
+/* ── Navigation ───────────────────────────────────────────────── */
+
+.nav {
+    position: fixed;
+    inset: 0 0 auto 0;
+    z-index: 200;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 22px 40px;
+    animation: anim-nav 0.9s ease forwards;
+    opacity: 0;
+}
+
+.nav-wordmark {
+    font-size: 0.95rem;
+    font-weight: 800;
+    letter-spacing: 0.28em;
+    color: #fff;
+    text-transform: uppercase;
+    flex-shrink: 0;
+}
+
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+}
+
+.nav-links a {
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    color: rgba(255,255,255,0.55);
+    text-transform: uppercase;
+    transition: color 0.2s;
+}
+
+.nav-links a:hover { color: #fff; }
+
+.nav-cta {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #000;
+    background: #fff;
+    padding: 8px 20px;
+    border-radius: 999px;
+    flex-shrink: 0;
+    transition: opacity 0.2s, transform 0.2s;
+}
+
+.nav-cta:hover {
+    opacity: 0.86;
+    transform: translateY(-1px);
+}
+
+/* Hamburger — hidden on desktop */
+.nav-hamburger {
+    display: none;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.14);
+    border-radius: 50%;
+    width: 42px;
+    height: 42px;
+    cursor: pointer;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    flex-shrink: 0;
+}
+
+.nav-hamburger span {
+    display: block;
+    width: 17px;
+    height: 1.5px;
+    background: #fff;
+    border-radius: 2px;
+    transition: transform 0.3s, opacity 0.3s;
+}
+
+.nav-hamburger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+.nav-hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+.nav-hamburger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+/* ── Mobile menu ──────────────────────────────────────────────── */
+
+.mobile-menu {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.97);
+    z-index: 190;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 36px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
+.mobile-menu.open {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.mobile-menu a {
+    font-size: 1.5rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    color: rgba(255,255,255,0.75);
+    transition: color 0.2s;
+}
+
+.mobile-menu a:hover { color: #fff; }
+
+.mobile-menu .mobile-cta {
+    margin-top: 20px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #000;
+    background: #fff;
+    padding: 14px 32px;
+    border-radius: 999px;
+}
+
+/* ── Hero container ───────────────────────────────────────────── */
+
+.hero {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+/* ── Background video ─────────────────────────────────────────── */
+
+.hero-video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
+    pointer-events: none;
+}
+
+/* ── Overlays ─────────────────────────────────────────────────── */
+
+.hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.40);
+    z-index: 1;
+}
+
+.hero-overlay::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 180px;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.55) 0%, transparent 100%);
+}
+
+.hero-overlay::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 210px;
+    background: linear-gradient(to top, rgba(0,0,0,0.72) 0%, transparent 100%);
+}
+
+/* ── Hero content ─────────────────────────────────────────────── */
+
+.hero-content {
+    position: relative;
+    z-index: 10;
+    text-align: center;
+    padding: 0 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    animation: anim-hero 1s ease 0.35s both;
+}
+
+.eyebrow {
+    font-size: 0.6rem;
+    font-weight: 600;
+    letter-spacing: 0.38em;
+    color: rgba(255,255,255,0.38);
+    text-transform: uppercase;
+    margin-bottom: 14px;
+}
+
+.brand {
+    font-size: 0.85rem;
+    font-weight: 800;
+    letter-spacing: 0.6em;
+    color: rgba(255,255,255,0.45);
+    text-transform: uppercase;
+    margin-bottom: 22px;
+}
+
+.headline {
+    font-family: "BubbledotICG-FinePos", "Geist Pixel Circle", "Courier New", monospace;
+    font-size: clamp(3.8rem, 9.5vw, 9rem);
+    font-weight: 900;
+    letter-spacing: -0.01em;
+    color: #fff;
+    line-height: 0.93;
+    margin-bottom: 30px;
+    animation: anim-headline 0.85s cubic-bezier(0.16, 1, 0.3, 1) 0.6s both;
+}
+
+.description {
+    font-size: clamp(0.82rem, 1.6vw, 0.95rem);
+    font-weight: 400;
+    color: rgba(255,255,255,0.45);
+    max-width: 400px;
+    line-height: 1.65;
+    margin-bottom: 38px;
+}
+
+/* CTA buttons */
+
+.cta-group {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 26px;
+    flex-wrap: wrap;
+}
+
+.btn-primary {
+    display: inline-flex;
+    align-items: center;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #000;
+    background: #fff;
+    padding: 14px 30px;
+    border-radius: 999px;
+    box-shadow: 0 0 28px rgba(255,255,255,0.16);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0 42px rgba(255,255,255,0.26);
+}
+
+.btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.8);
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.22);
+    padding: 30px 30px;
+    border-radius: 999px;
+    transition: border-color 0.2s, color 0.2s, transform 0.2s;
+}
+
+.btn-secondary:hover {
+    border-color: rgba(255,255,255,0.55);
+    color: #fff;
+    transform: translateY(-2px);
+}
+
+.trust-line {
+    font-size: 0.58rem;
+    font-weight: 500;
+    letter-spacing: 0.28em;
+    color: rgba(255,255,255,0.2);
+    text-transform: uppercase;
+}
+
+.metrics {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 10;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    padding: 18px 40px 30px;
+    animation: anim-metrics 0.9s ease 1s both;
+}
+
+.metric {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    padding: 0 12px;
+}
+
+.metric + .metric {
+    border-left: 1px solid rgba(255,255,255,0.07);
+}
+
+.metric-value {
+    font-family: 'Courier New', 'Courier', monospace;
+    font-size: clamp(1.1rem, 2.2vw, 1.65rem);
+    font-weight: 700;
+    color: #fff;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.03em;
+}
+
+.metric-label {
+    font-size: 0.52rem;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    color: rgba(255,255,255,0.3);
+    text-transform: uppercase;
+}
+
+@keyframes anim-nav { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes anim-hero { from { opacity: 0; } to { opacity: 1; } }
+@keyframes anim-headline { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes anim-metrics { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+
+@media (max-width: 1023px) {
+    .nav-links { display: none; }
+    .nav-cta { display: none; }
+    .nav-hamburger { display: flex; }
+    .nav { padding: 18px 24px; }
+    .metrics { grid-template-columns: repeat(2, 1fr); padding: 14px 24px 26px; row-gap: 20px; }
+    .metric + .metric { border-left: none; }
+    .metric:nth-child(2), .metric:nth-child(4) { border-left: 1px solid rgba(255,255,255,0.07); }
+    .metric:nth-child(3), .metric:nth-child(4) { padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.07); }
+}
+
+@media (max-width: 600px) {
+    .headline { font-size: clamp(2.8rem, 14vw, 4.5rem); }
+    .cta-group { flex-direction: column; width: 100%; max-width: 260px; }
+    .btn-primary, .btn-secondary { width: 100%; justify-content: center; }
+    .metrics { padding: 10px 16px 22px; row-gap: 14px; }
+    .metric-value { font-size: 1.1rem; }
+}

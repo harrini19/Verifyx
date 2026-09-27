@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Account Form')}"></head>
+<body>
+    <div th:replace="~{fragments/layout :: sidebar}"></div>
+    <div class="main-content">
+        <div th:replace="~{fragments/layout :: topbar}"></div>
+        <div class="content-area">
+            <div class="page-header">
+                <h2 th:text="${accountId != null ? 'Edit Account' : 'Add Account'}">Account Form</h2>
+                <a th:href="@{/accounts}" class="btn-outline">Back to List</a>
+            </div>
+            
+            <div class="form-container panel">
+                <form th:action="${accountId != null ? '/accounts/' + accountId + '/edit' : '/accounts/new'}" th:object="${accountRequest}" method="post">
+                    <div th:if="${errorMessage != null}" class="alert alert-danger" th:text="${errorMessage}"></div>
+                    
+                    <div class="form-group">
+                        <label>Account Code</label>
+                        <input type="text" th:field="*{accountCode}" class="form-control" placeholder="e.g. 1000" required/>
+                        <span th:if="${#fields.hasErrors('accountCode')}" th:errors="*{accountCode}" style="color:var(--red-error); font-size:12px;"></span>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Account Name</label>
+                        <input type="text" th:field="*{accountName}" class="form-control" placeholder="e.g. Cash" required/>
+                        <span th:if="${#fields.hasErrors('accountName')}" th:errors="*{accountName}" style="color:var(--red-error); font-size:12px;"></span>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Account Type</label>
+                        <select th:field="*{accountType}" class="form-control" required>
+                            <option value="">Select Type</option>
+                            <option th:each="type : ${accountTypes}" th:value="${type}" th:text="${type}"></option>
+                        </select>
+                        <span th:if="${#fields.hasErrors('accountType')}" th:errors="*{accountType}" style="color:var(--red-error); font-size:12px;"></span>
+                    </div>
+                    
+                    <div class="form-group" th:if="${accountId == null}">
+                        <label>Opening Balance (₹)</label>
+                        <input type="number" step="0.01" th:field="*{openingBalance}" class="form-control" required/>
+                        <span th:if="${#fields.hasErrors('openingBalance')}" th:errors="*{openingBalance}" style="color:var(--red-error); font-size:12px;"></span>
+                    </div>
+                    <!-- Hidden field to preserve openingBalance during edit, since it's required by DTO -->
+                    <input th:if="${accountId != null}" type="hidden" th:field="*{openingBalance}" />
+                    
+                    <div class="form-group">
+                        <label>Description</label>
+                        <textarea th:field="*{description}" class="form-control" rows="3" placeholder="Optional notes..."></textarea>
+                        <span th:if="${#fields.hasErrors('description')}" th:errors="*{description}" style="color:var(--red-error); font-size:12px;"></span>
+                    </div>
+                    
+                    <div style="margin-top: 32px;">
+                        <button type="submit" class="btn-primary" style="width: 100%;">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
+                            Save Account
+                        </button>
+                    </div>
+                </form>
+            </div>
+    </div>
+</body>
+</html>
+
+
+
+
+
+

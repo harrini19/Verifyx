@@ -1,0 +1,99 @@
+﻿<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Certificate Issued')}"></head>
+<body>
+    <div th:replace="~{fragments/layout :: sidebar}"></div>
+    <div class="main-content">
+        <div th:replace="~{fragments/layout :: topbar}"></div>
+        <div class="content-area">
+            <div class="page-header">
+                <h2>Issuance Successful</h2>
+                <a th:href="@{/certificates}" class="btn btn-outline">Back to List</a>
+            </div>
+            
+            <div class="alert alert-success" th:if="${successMessage}">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                <span th:text="${successMessage}">Certificate issued successfully!</span>
+            </div>
+            
+            <div class="certificate-view" th:if="${issuedCertificate != null}">
+                <div class="certificate-header">
+                    <h2>Official Digital Credential</h2>
+                    <p style="color: var(--text-muted); margin: 0;" th:text="${issuedCertificate.institution}">Institution</p>
+                </div>
+                
+                <div class="certificate-details">
+                    <div class="detail-group">
+                        <div class="detail-label">Certificate ID</div>
+                        <div class="detail-value" th:text="${issuedCertificate.certificateNumber}">CERT-123</div>
+                    </div>
+                    <div class="detail-group">
+                        <div class="detail-label">Issue Date</div>
+                        <div class="detail-value" th:text="${issuedCertificate.issueDate}">2026-01-01</div>
+                    </div>
+                    
+                    <div class="detail-group">
+                        <div class="detail-label">Recipient Name</div>
+                        <div class="detail-value" th:text="${issuedCertificate.studentName}">John Doe</div>
+                    </div>
+                    <div class="detail-group">
+                        <div class="detail-label">Student ID</div>
+                        <div class="detail-value" th:text="${issuedCertificate.studentId}">STD-123</div>
+                    </div>
+                    
+                    <div class="detail-group">
+                        <div class="detail-label">Course / Program</div>
+                        <div class="detail-value" th:text="${issuedCertificate.course}">Computer Science</div>
+                    </div>
+                    <div class="detail-group">
+                        <div class="detail-label">Grade / Classification</div>
+                        <div class="detail-value" th:text="${issuedCertificate.grade}">First Class</div>
+                    </div>
+                    
+                    <div class="detail-group">
+                        <div class="detail-label">Issuer</div>
+                        <div class="detail-value" th:text="${issuedCertificate.issuer}">Registrar</div>
+                    </div>
+                    <div class="detail-group">
+                        <div class="detail-label">Status</div>
+                        <div class="detail-value">
+                            <span class="badge badge-success" th:text="${issuedCertificate.status}">VALID</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="hash-container">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <span style="font-weight: 600; color: var(--navy-midnight);">Cryptographic Fingerprint (SHA-256)</span>
+                    </div>
+                    <div class="hash-value" id="certHash" th:text="${issuedCertificate.sha256Hash}">
+                        5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8
+                    </div>
+                    <button class="btn btn-outline copy-btn" onclick="copyHash()">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                        Copy Hash
+                    </button>
+                    <p style="font-size: 12px; color: var(--text-muted); margin-top: 12px;">
+                        This hash is permanently associated with this credential. It can be used by third parties to verify authenticity.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function copyHash() {
+            var hashText = document.getElementById("certHash").innerText;
+            navigator.clipboard.writeText(hashText).then(function() {
+                alert("Hash copied to clipboard!");
+            });
+        }
+    </script>
+</body>
+</html>
+
+
+
+
+
+

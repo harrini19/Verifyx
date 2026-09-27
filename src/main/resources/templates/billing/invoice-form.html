@@ -1,0 +1,62 @@
+﻿<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Create Invoice')}"></head>
+<body>
+    <div th:replace="~{fragments/layout :: sidebar}"></div>
+    <div class="main-content">
+        <div th:replace="~{fragments/layout :: topbar}"></div>
+        <div class="content-area">
+            <div class="page-header">
+                <h2>Create Invoice</h2>
+                <a th:href="@{/billing/invoices}" class="btn btn-outline">Back to List</a>
+            </div>
+            
+            <div class="form-container">
+                <form th:action="@{/billing/invoices/new}" th:object="${invoiceRequest}" method="post">
+                    <div th:if="${errorMessage != null}" class="alert alert-danger" th:text="${errorMessage}"></div>
+                    
+                    <div class="form-group">
+                        <label>Client / Agency Name</label>
+                        <input type="text" th:field="*{agencyName}" class="form-control" placeholder="e.g. Acme Corp" required/>
+                        <span th:if="${#fields.hasErrors('agencyName')}" th:errors="*{agencyName}" style="color:var(--red-error); font-size:12px;"></span>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Package Tier</label>
+                        <select th:field="*{packageName}" class="form-control" required>
+                            <option value="">Select Package</option>
+                            <option th:each="pkg : ${packages}" th:value="${pkg}" th:text="${pkg}"></option>
+                        </select>
+                        <span th:if="${#fields.hasErrors('packageName')}" th:errors="*{packageName}" style="color:var(--red-error); font-size:12px;"></span>
+                        <p style="font-size: 12px; color: var(--text-muted); margin-top: 5px;">The billing amount is automatically calculated based on the selected package.</p>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Invoice Date</label>
+                        <input type="date" th:field="*{invoiceDate}" class="form-control" required/>
+                        <span th:if="${#fields.hasErrors('invoiceDate')}" th:errors="*{invoiceDate}" style="color:var(--red-error); font-size:12px;"></span>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Due Date</label>
+                        <input type="date" th:field="*{dueDate}" class="form-control" required/>
+                        <span th:if="${#fields.hasErrors('dueDate')}" th:errors="*{dueDate}" style="color:var(--red-error); font-size:12px;"></span>
+                    </div>
+                    
+                    <div style="margin-top: 32px;">
+                        <button type="submit" class="btn btn-primary" style="width: 100%;">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                            Generate Invoice
+                        </button>
+                    </div>
+                </form>
+            </div>
+    </div>
+</body>
+</html>
+
+
+
+
+
+

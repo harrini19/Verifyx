@@ -1,0 +1,95 @@
+<!--
+  VERIFYX Landing Page – cinematic, futuristic single-viewport experience.
+  Uses the global "head" fragment for meta tags & CSS imports.
+  No sidebar, no navigation fragments – pure hero.
+-->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:replace="~{fragments/layout :: head('VERIFYX')}"></th:block>
+    <link rel="stylesheet" th:href="@{/css/landing.css}">
+</head>
+<body>
+    <!-- Navigation (float‑top) -->
+    <nav class="nav">
+        <div class="nav-wordmark">VERIFYX</div>
+        <div class="nav-hamburger" id="hamburger">
+            <span></span><span></span><span></span>
+        </div>
+        <div class="nav-links">
+            <a th:href="@{/certificates/verify}">Verify</a>
+            <a th:href="@{/certificates/issue}">Issue</a>
+        </div>
+        <a class="nav-cta" th:href="@{/certificates/issue}">Get Started</a>
+    </nav>
+
+    <!-- Mobile overlay menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <a th:href="@{/certificates/verify}">Verify</a>
+        <a th:href="@{/certificates/issue}">Issue</a>
+        <a class="mobile-cta" th:href="@{/certificates/issue}">Get Started</a>
+    </div>
+
+    <!-- Hero section – will be overlaid on a background video -->
+    <section class="hero">
+        <video class="hero-video" autoplay muted loop id="heroVideo" src="https://assets.verifx.io/hero.mp4"></video>
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <div class="eyebrow">BLOCKCHAIN‑POWERED</div>
+            <div class="brand">VERIFYX</div>
+            <h1 class="headline">BUILT ON PROOF.</h1>
+            <p class="description">A next‑generation digital credential platform that issues tamper‑proof academic certificates on the blockchain.</p>
+            <div class="cta-group">
+                <a class="btn-primary" th:href="@{/certificates/issue}">Issue Certificate</a>
+                <a class="btn-secondary" th:href="@{/certificates/verify}">Verify Certificate</a>
+            </div>
+            <div class="trust-line">Trusted by universities, employers & regulators worldwide.</div>
+        </div>
+        <!-- Bottom metrics – data injected from the controller -->
+        <div class="metrics" th:if="${stats != null}">
+            <div class="metric">
+                <div class="metric-value" th:text="${stats.totalCertificates}"></div>
+                <div class="metric-label">Certificates</div>
+            </div>
+            <div class="metric">
+                <div class="metric-value" th:text="${stats.verifiedCertificates}"></div>
+                <div class="metric-label">Verified</div>
+            </div>
+            <div class="metric">
+                <div class="metric-value" th:text="${stats.pendingInvoices}"></div>
+                <div class="metric-label">Pending Invoices</div>
+            </div>
+            <div class="metric">
+                <div class="metric-value" th:text="${'₹' + #numbers.formatDecimal(stats.totalRevenue, 1, 'COMMA', 2, 'POINT')}"></div>
+                <div class="metric-label">Revenue</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer scripts – video scrub on desktop -->
+    <script>
+        // Mobile: use static poster (autoplay muted loop); Desktop: enable scrub on mouse move
+        const video = document.getElementById('heroVideo');
+        const isMobile = window.innerWidth <= 1023;
+        if (isMobile) {
+            video.removeAttribute('autoplay'); // let it play as a regular looping clip
+        } else {
+            // Map mouse X (0‑width) to video currentTime (0‑duration)
+            const duration = video.duration || 10; // fallback
+            document.addEventListener('mousemove', e => {
+                const percent = e.clientX / window.innerWidth;
+                video.currentTime = percent * duration;
+            });
+        }
+        // Hamburger toggle for mobile menu
+        const hamburger = document.getElementById('hamburger');
+        const mobileMenu = document.getElementById('mobileMenu');
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('open');
+            mobileMenu.classList.toggle('open');
+        });
+    </script>
+    <!-- Link our landing CSS – placed after the head fragment to avoid duplicate loads -->
+    <link rel="stylesheet" th:href="@{/css/landing.css}">
+</body>
+</html>

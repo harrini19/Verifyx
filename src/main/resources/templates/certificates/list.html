@@ -1,0 +1,66 @@
+﻿<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Certificates')}"></head>
+<body>
+    <div th:replace="~{fragments/layout :: sidebar}"></div>
+    <div class="main-content">
+        <div th:replace="~{fragments/layout :: topbar}"></div>
+        <div class="content-area panel">
+            <div class="page-header">
+                <h2>All Credentials</h2>
+                <a th:href="@{/certificates/issue}" class="btn-primary">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                    Issue New Certificate
+                </a>
+            </div>
+            
+            <div class="panel table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Cert ID</th>
+                            <th>Recipient</th>
+                            <th>Course</th>
+                            <th>Issue Date</th>
+                            <th>Hash (Truncated)</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="cert : ${certificates}">
+                            <td th:text="${cert.certificateNumber}" style="font-weight: 500;">CERT-001</td>
+                            <td th:text="${cert.studentName}">Name</td>
+                            <td th:text="${cert.course}">Course</td>
+                            <td th:text="${cert.issueDate}">Date</td>
+                            <td style="font-family: monospace; color: var(--text-muted);" th:text="${#strings.substring(cert.sha256Hash, 0, 12)} + '...'">
+                                hash...
+                            </td>
+                            <td>
+                                <span class="badge" th:classappend="${cert.status.name() == 'VALID' ? 'badge-success' : 'badge-danger'}" th:text="${cert.status}">VALID</span>
+                            </td>
+                            <td>
+                                <!-- We pass the hash to the verify form -->
+                                <form th:action="@{/certificates/verify}" method="post" style="margin: 0;">
+                                    <input type="hidden" name="hash" th:value="${cert.sha256Hash}"/>
+                                    <button type="submit" class="btn btn-outline" style="padding: 4px 10px; font-size: 12px;">Verify</button>
+                                </form>
+                            </td>
+                        </tr>
+                        <tr th:if="${#lists.isEmpty(certificates)}">
+                            <td colspan="7" style="text-align: center; padding: 40px; color: var(--text-muted);">
+                                No credentials have been issued yet.
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+    </div>
+</body>
+</html>
+
+
+
+
+
+
